@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>El viaje del cariño de cosa1 hacia Jefecito Inosuke💓</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    background:#05020b;
+    font-family:Arial, sans-serif;
+    color:white;
+}
+
+.app{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    margin:auto;
+    background:#000;
+    position:relative;
+    overflow:hidden;
+}
+
+/* =========================
+   CRONÓMETRO
+========================= */
+
+.crono{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:linear-gradient(
+        90deg,
+        #8f5bb7,
+        #ff69b4,
+        #b06be8,
+        #ff69b4
+    );
+
+    background-size:300% 100%;
+
+    color:white;
+    padding:12px 8px;
+    text-align:center;
+
+    font-weight:bold;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.7);
+
+    animation:brillo 5s linear infinite;
+}
+
+.crono small{
+    display:block;
+    margin-top:4px;
+    font-size:12px;
+}
+
+/* =========================
+   MAPA
+========================= */
+
+.mapa{
+    position:relative;
+    width:100%;
+    line-height:0;
+    overflow:hidden;
+}
+
+.mapa img{
+    width:100%;
+    height:auto;
+    display:block;
+}
+
+/* =========================
+   RUTA
+========================= */
+
+.ruta-svg{
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    z-index:3;
+
+    pointer-events:none;
+}
+
+.ruta-svg path{
+    fill:none;
+
+    stroke:#ff69b4;
+    stroke-width:9;
+
+    stroke-linecap:round;
+    stroke-linejoin:round;
+
+    stroke-dasharray:20 14;
+
+    filter:
+        drop-shadow(0 0 4px #ff69b4)
+        drop-shadow(0 0 8px rgba(255,255,255,.5));
+
+    animation:moverRuta 2.5s linear infinite;
+}
+
+/* =========================
+   ANIMALES
+========================= */
+
+.marker{
+    position:absolute;
+
+    z-index:10;
+
+    font-size:30px;
+
+    transform:
+        translate(-50%, -50%);
+
+    transition:
+        left 1s ease,
+        top 1s ease,
+        transform .3s ease,
+        opacity .4s ease;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    filter:
+        drop-shadow(0 0 5px rgba(255,255,255,.8));
+}
+
+.marker:hover{
+    transform:
+        translate(-50%, -50%)
+        scale(1.2);
+}
+
+.marker.activo{
+    font-size:42px;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1.15);
+
+    filter:
+        drop-shadow(0 0 8px #ff69b4)
+        drop-shadow(0 0 18px white);
+
+    animation:rebote .8s infinite;
+}
+
+.marker.esperando{
+    opacity:.35;
+
+    filter:
+        grayscale(80%)
+        drop-shadow(0 0 3px #aaa);
+}
+
+/* =========================
+   BOTÓN
+========================= */
+
+.btn{
+    width:calc(100% - 24px);
+
+    margin:14px 12px;
+
+    padding:14px;
+
+    border:none;
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #a66bd4,
+            #ff69b4
+        );
+
+    color:white;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 15px rgba(255,105,180,.3);
+
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:scale(1.02);
+}
+
+.btn:active{
+    transform:scale(.97);
+}
+
+/* =========================
+   PANEL DE ANIMALES
+========================= */
+
+.tracking{
+    max-height:0;
+
+    overflow:hidden;
+
+    opacity:0;
+
+    padding:0 12px;
+
+    transition:
+        max-height .6s ease,
+        opacity .4s ease,
+        padding .4s ease;
+}
+
+.tracking.open{
+    max-height:2000px;
+
+    opacity:1;
+
+    padding:
+        5px 12px
+        25px;
+}
+
+.tracking-title{
+    text-align:center;
+
+    font-size:14px;
+
+    color:#f4c9e9;
+
+    margin-bottom:12px;
+}
+
+/* =========================
+   TARJETAS
+========================= */
+
+.card{
+    position:relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(100,55,130,.55),
+            rgba(30,10,40,.9)
+        );
+
+    border:
+        1px solid
+        rgba(255,105,180,.4);
+
+    border-radius:16px;
+
+    padding:14px;
+
+    margin-bottom:12px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.5);
+}
+
+.card:hover{
+    transform:translateY(-2px);
+
+    border-color:#ff69b4;
+}
+
+.card.seleccionada{
+    border:
+        2px solid #ff69b4;
+
+    box-shadow:
+        0 0 15px
+        rgba(255,105,180,.5);
+}
+
+.card-top{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.card-emoji{
+    font-size:38px;
+}
+
+.card-info{
+    flex:1;
+}
+
+.card-nombre{
+    font-size:17px;
+
+    font-weight:bold;
+
+    color:#fff;
+}
+
+.card-viaje{
+    font-size:12px;
+
+    color:#dcb9e9;
+
+    margin-top:3px;
+}
+
+.estado{
+    font-size:11px;
+
+    font-weight:bold;
+
+    margin-top:7px;
+}
+
+/* =========================
+   BARRA
+========================= */
+
+.barra{
+    width:100%;
+
+    height:8px;
+
+    background:#26162d;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:12px;
+}
+
+.barra-progreso{
+    height:100%;
+
+    width:0%;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a66bd4,
+            #ff69b4
+        );
+
+    transition:width .8s ease;
+}
+
+.datos{
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:8px;
+
+    font-size:11px;
+
+    color:#c9b5cf;
+}
+
+/* =========================
+   POPUP
+========================= */
+
+.popup{
+    position:fixed;
+
+    left:50%;
+
+    bottom:20px;
+
+    transform:
+        translate(-50%, 150%);
+
+    width:
+        min(390px, calc(100% - 30px));
+
+    background:
+        linear-gradient(
+            135deg,
+            #24102f,
+            #120817
+        );
+
+    border:
+        2px solid
+        rgba(255,105,180,.7);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    z-index:100;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.8),
+        0 0 20px rgba(255,105,180,.25);
+
+    transition:
+        transform .5s ease;
+
+    line-height:1.4;
+}
+
+.popup.show{
+    transform:
+        translate(-50%, 0);
+}
+
+.popup-title{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+}
+
+.popup-emoji{
+    font-size:35px;
+}
+
+.popup-text{
+    font-size:14px;
+
+    color:#f3d9ed;
+
+    margin-bottom:12px;
+}
+
+.popup-data{
+    font-size:12px;
+
+    color:#c8a9c8;
+}
+
+.cerrar{
+    position:absolute;
+
+    top:8px;
+    right:10px;
+
+    border:none;
+
+    background:none;
+
+    color:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+/* =========================
+   ANIMACIONES
+========================= */
+
+@keyframes brillo{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+
+}
+
+@keyframes moverRuta{
+
+    from{
+        stroke-dashoffset:0;
+    }
+
+    to{
+        stroke-dashoffset:-100;
+    }
+
+}
+
+@keyframes rebote{
+
+    0%,100%{
+        margin-top:0;
+    }
+
+    50%{
+        margin-top:-8px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================
+         CRONÓMETRO
+    ========================== -->
+
+    <div class="crono">
+
+        ⏳ Amándote y Queriendote desde 28/2/2025 3:23 PM
+
+        <small id="cronoTiempo">
+            Calculando tiempo...
+        </small>
+
+        <small id="cronoKm">
+            🐢 0.00 km totales
+        </small>
+
+    </div>
+
+
+    <!-- =========================
+         MAPA
+    ========================== -->
+
+    <div class="mapa" id="mapaCont">
+
+        <img
+            src="portad.jpg"
+            alt="Mapa de nuestro viaje"
+        >
+
+
+        <!-- RUTA -->
+
+        <svg
+            class="ruta-svg"
+            viewBox="0 0 1000 2400"
+            preserveAspectRatio="none"
+        >
+
+            <path
+                id="ruta"
+                d="
+                M 230 520
+
+                Q 420 600
+                  720 680
+
+                Q 760 740
+                  520 820
+
+                Q 300 880
+                  200 900
+
+                Q 360 960
+                  680 1020
+
+                Q 820 1070
+                  600 1170
+
+                Q 340 1270
+                  240 1360
+
+                Q 320 1440
+                  580 1500
+
+                Q 820 1560
+                  780 1670
+
+                Q 600 1780
+                  340 1880
+
+                Q 120 1980
+                  220 2120
+                "
+            ></path>
+
+        </svg>
+
+
+        <!-- =========================
+             ANIMALES
+        ========================== -->
+
+        <div
+            id="m-tortuga"
+            class="marker esperando"
+            onclick="seleccionarAnimal('tortuga')"
+        >
+            🐢
+        </div>
+
+        <div
+            id="m-caracol"
+            class="marker esperando"
+            onclick="seleccionarAnimal('caracol')"
+        >
+            🐌
+        </div>
+
+        <div
+            id="m-calamar"
+            class="marker esperando"
+            onclick="seleccionarAnimal('calamar')"
+        >
+            🦑
+        </div>
+
+        <div
+            id="m-cangrejo"
+            class="marker esperando"
+            onclick="seleccionarAnimal('cangrejo')"
+        >
+            🦀
+        </div>
+
+        <div
+            id="m-arana"
+            class="marker esperando"
+            onclick="seleccionarAnimal('arana')"
+        >
+            🕷️
+        </div>
+
+        <div
+            id="m-saltamonte"
+            class="marker esperando"
+            onclick="seleccionarAnimal('saltamonte')"
+        >
+            🦗
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BOTÓN
+    ========================== -->
+
+    <button
+        class="btn"
+        onclick="toggleTracking()"
+    >
+        📍 Ver ubicación y progreso de cada uno 
+    </button>
+
+
+    <!-- =========================
+         LISTA
+    ========================== -->
+
+    <div
+        class="tracking"
+        id="track"
+    >
+
+        <div class="tracking-title">
+            Toca un animal para verlo en el mapa 
+        </div>
+
+        <div id="lista"></div>
+
+    </div>
+
+
+    <!-- =========================
+         POPUP
+    ========================== -->
+
+    <div
+        id="popup"
+        class="popup"
+    ></div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURACIÓN PRINCIPAL
+===================================================== */
+
+/*
+   INICIO:
+   28 de febrero de 2025
+   3:23 PM
+*/
+
+const inicio = new Date(
+    "2025-02-28T15:23:00"
+);
+
+
+/*
+   Distancia de la Tierra a la Luna.
+*/
+
+const DISTANCIA_POR_ANIMAL = 384400;
+
+
+/*
+   Velocidad del viaje.
+
+   Puedes modificar este número si quieres
+   que avancen más rápido.
+
+   Actualmente:
+   100 km por cada 14054.5 horas.
+*/
+
+const VELOCIDAD =
+    100 / 14054.5;
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const mapa =
+    document.getElementById("mapaCont");
+
+const ruta =
+    document.getElementById("ruta");
+
+const lista =
+    document.getElementById("lista");
+
+
+/* =====================================================
+   DATOS DE LOS ANIMALES
+===================================================== */
+
+const animales = [
+
+    {
+        id:"tortuga",
+        emoji:"🐢",
+        nombre:"TORTUGA",
+        viaje:"Tierra → Luna",
+
+        nota:
+        "🐢 ¡Estoy en camino! Voy lentita, pero llevo todo mi cariño. Cada pasito cuenta y no pienso rendirme ni hoy ni nunca"
+    },
+
+    {
+        id:"caracol",
+        emoji:"🐌",
+        nombre:"CARACOL",
+        viaje:"Luna → Sol",
+
+        nota:
+        "🐌 Estoy esperando mi turno con mi casita llena de ideas para ti. Cuando llegue la tortuga, salgo rumbo al Sol ☀️💌"
+    },
+
+    {
+        id:"calamar",
+        emoji:"🦑",
+        nombre:"CALAMAR",
+        viaje:"Sol → Mar",
+
+        nota:
+        "🦑 Hace calor en el Sol, así que voy rumbo al mar. Mi tinta escribe tu nombre en cada ola  🌊💗"
+    },
+
+    {
+        id:"cangrejo",
+        emoji:"🦀",
+        nombre:"CANGREJO",
+        viaje:"Mar → Desierto",
+
+        nota:
+        "🦀 ¡Clic clac! Voy practicando mi caminadita de lado rumbo al desierto, llevando tu foto conmigo para motivarme 🌵💓"
+    },
+
+    {
+        id:"arana",
+        emoji:"🕷️",
+        nombre:"ARAÑA",
+        viaje:"Desierto → Montaña",
+
+        nota:
+        "🕷️ Estoy tejiendo una red gigante entre el desierto y la montaña. Cada hilo tiene mi cariño hacia ti"
+    },
+
+    {
+        id:"saltamonte",
+        emoji:"🦗",
+        nombre:"SALTAMONTE",
+        viaje:"Montaña → Polo Norte",
+
+        nota:
+        "🦗 ¡Brinco y brinco! Entrenando para llegar hasta el Polo Norte. Hace frío, pero tengo una mision"
+    }
+
+];
+
+
+/* =====================================================
+   CALCULAR KILÓMETROS TOTALES
+===================================================== */
+
+function obtenerKmTotal(){
+
+    const ahora =
+        new Date();
+
+    const diferencia =
+        ahora - inicio;
+
+
+    /*
+       Si todavía no ha llegado
+       la fecha de inicio,
+       regresamos 0.
+    */
+
+    if(diferencia <= 0){
+
+        return 0;
+
+    }
+
+
+    const horas =
+        diferencia /
+        (1000 * 60 * 60);
+
+
+    return horas * VELOCIDAD;
+
+}
+
+
+/* =====================================================
+   CRONÓMETRO
+===================================================== */
+
+function actualizarCronometro(){
+
+    const ahora =
+        new Date();
+
+    let diferencia =
+        ahora - inicio;
+
+
+    if(diferencia < 0){
+
+        diferencia = 0;
+
+    }
+
+
+    const dias =
+        Math.floor(
+            diferencia /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    const horas =
+        Math.floor(
+            diferencia /
+            (1000 * 60 * 60)
+        ) % 24;
+
+
+    const minutos =
+        Math.floor(
+            diferencia /
+            (1000 * 60)
+        ) % 60;
+
+
+    const segundos =
+        Math.floor(
+            diferencia /
+            1000
+        ) % 60;
+
+
+    const horasTexto =
+        String(horas)
+        .padStart(2,"0");
+
+
+    const minutosTexto =
+        String(minutos)
+        .padStart(2,"0");
+
+
+    const segundosTexto =
+        String(segundos)
+        .padStart(2,"0");
+
+
+    document.getElementById(
+        "cronoTiempo"
+    ).textContent =
+
+        `${dias} días ` +
+        `${horasTexto}h ` +
+        `${minutosTexto}m ` +
+        `${segundosTexto}s ` +
+        `amándote`;
+
+
+    const km =
+        obtenerKmTotal();
+
+
+    document.getElementById(
+        "cronoKm"
+    ).textContent =
+
+        `🐢 ${km.toFixed(2)} km totales`;
+
+}
+
+
+/* =====================================================
+   OBTENER INFORMACIÓN DE UN ANIMAL
+===================================================== */
+
+function obtenerProgreso(indice){
+
+    const kmTotal =
+        obtenerKmTotal();
+
+
+    /*
+       Cada animal comienza
+       cuando el anterior termina.
+
+       Animal 0:
+       0 km
+
+       Animal 1:
+       384400 km
+
+       Animal 2:
+       768800 km
+
+       etc.
+    */
+
+    const inicioAnimal =
+        DISTANCIA_POR_ANIMAL * indice;
+
+
+    const kmPropio =
+        Math.max(
+            0,
+            kmTotal - inicioAnimal
+        );
+
+
+    const porcentaje =
+        Math.min(
+            (kmPropio /
+            DISTANCIA_POR_ANIMAL) * 100,
+            100
+        );
+
+
+    return {
+
+        kmPropio,
+        porcentaje
+
+    };
+
+}
+
+
+/* =====================================================
+   ACTUALIZAR POSICIÓN DE LOS ANIMALES
+===================================================== */
+
+function actualizarMapa(){
+
+    /*
+       Si el navegador todavía
+       no ha cargado la ruta,
+       salimos.
+    */
+
+    if(
+        !ruta ||
+        typeof ruta.getTotalLength !== "function"
+    ){
+
+        return;
+
+    }
+
+
+    const longitudRuta =
+        ruta.getTotalLength();
+
+
+    const rect =
+        mapa.getBoundingClientRect();
+
+
+    /*
+       Distancia total de todo el recorrido.
+    */
+
+    const distanciaTotalRuta =
+
+        DISTANCIA_POR_ANIMAL *
+        animales.length;
+
+
+    animales.forEach(
+
+        (animal, indice) => {
+
+
+            const progreso =
+                obtenerProgreso(indice);
+
+
+            /*
+               Posición general
+               del animal en la ruta.
+            */
+
+            const distanciaEnRuta =
+
+                (
+                    DISTANCIA_POR_ANIMAL *
+                    indice
+                )
+                +
+                progreso.kmPropio;
+
+
+            /*
+               Convertimos kilómetros
+               a porcentaje de la ruta.
+            */
+
+            let porcentajeRuta =
+
+                distanciaEnRuta /
+                distanciaTotalRuta;
+
+
+            /*
+               Nunca dejamos que
+               salga del recorrido.
+            */
+
+            porcentajeRuta =
+                Math.max(
+                    0,
+                    Math.min(
+                        porcentajeRuta,
+                        0.99
+                    )
+                );
+
+
+            /*
+               Obtenemos el punto
+               correspondiente del SVG.
+            */
+
+            const punto =
+
+                ruta.getPointAtLength(
+                    longitudRuta *
+                    porcentajeRuta
+                );
+
+
+            /*
+               Convertimos las coordenadas
+               del SVG a coordenadas reales
+               del elemento HTML.
+            */
+
+            const x =
+
+                (
+                    punto.x / 1000
+                ) *
+                rect.width;
+
+
+            const y =
+
+                (
+                    punto.y / 2400
+                ) *
+                rect.height;
+
+
+            const marker =
+
+                document.getElementById(
+                    "m-" + animal.id
+                );
+
+
+            if(!marker){
+
+                return;
+
+            }
+
+
+            /*
+               Colocamos el animal.
+            */
+
+            marker.style.left =
+                x + "px";
+
+            marker.style.top =
+                y + "px";
+
+
+            /*
+               Si ya comenzó su viaje,
+               aparece normalmente.
+            */
+
+            if(progreso.kmPropio > 0){
+
+                marker.style.opacity = "1";
+
+                marker.classList.remove(
+                    "esperando"
+                );
+
+            }
+
+            else{
+
+                marker.style.opacity = ".35";
+
+                marker.classList.add(
+                    "esperando"
+                );
+
+            }
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   CREAR TARJETAS
+===================================================== */
+
+function actualizarLista(){
+
+    let html = "";
+
+
+    animales.forEach(
+
+        (animal, indice) => {
+
+
+            const progreso =
+                obtenerProgreso(indice);
+
+
+            let estado = "";
+
+
+            if(
+                progreso.porcentaje <= 0
+            ){
+
+                estado =
+                    "⏳ ESPERANDO";
+
+            }
+
+            else if(
+                progreso.porcentaje >= 100
+            ){
+
+                estado =
+                    "✅ COMPLETADO";
+
+            }
+
+            else{
+
+                estado =
+                    " VIAJANDO";
+
+            }
+
+
+            html += `
+
+                <div
+                    class="card"
+                    id="card-${animal.id}"
+                    onclick="
+                        seleccionarAnimal('${animal.id}')
+                    "
+                >
+
+                    <div class="card-top">
+
+                        <div class="card-emoji">
+                            ${animal.emoji}
+                        </div>
+
+                        <div class="card-info">
+
+                            <div class="card-nombre">
+                                ${animal.nombre}
+                            </div>
+
+                            <div class="card-viaje">
+                                ${animal.viaje}
+                            </div>
+
+                            <div
+                                class="estado"
+                                style="
+                                    color:
+                                    ${
+                                        progreso.porcentaje > 0
+                                        ? "#ff8bc9"
+                                        : "#aaa"
+                                    };
+                                "
+                            >
+                                ${estado}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="barra">
+
+                        <div
+                            class="barra-progreso"
+                            style="
+                                width:
+                                ${progreso.porcentaje}%;
+                            "
+                        ></div>
+
+                    </div>
+
+
+                    <div class="datos">
+
+                        <span>
+                            ${progreso.porcentaje.toFixed(2)}%
+                        </span>
+
+                        <span>
+                            ${progreso.kmPropio.toFixed(2)} km
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+    );
+
+
+    lista.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   SELECCIONAR ANIMAL
+===================================================== */
+
+function seleccionarAnimal(id){
+
+    const animal =
+        animales.find(
+            a => a.id === id
+        );
+
+
+    if(!animal){
+
+        return;
+
+    }
+
+
+    const indice =
+        animales.findIndex(
+            a => a.id === id
+        );
+
+
+    const progreso =
+        obtenerProgreso(indice);
+
+
+    /*
+       Abrimos automáticamente
+       el panel de animales.
+    */
+
+    const tracking =
+        document.getElementById(
+            "track"
+        );
+
+
+    if(
+        !tracking.classList.contains("open")
+    ){
+
+        tracking.classList.add(
+            "open"
+        );
+
+    }
+
+
+    /*
+       Quitamos selección anterior.
+    */
+
+    document
+        .querySelectorAll(".marker")
+        .forEach(
+            marker => {
+
+                marker.classList.remove(
+                    "activo"
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(".card")
+        .forEach(
+            card => {
+
+                card.classList.remove(
+                    "seleccionada"
+                );
+
+            }
+        );
+
+
+    /*
+       Seleccionamos el animal.
+    */
+
+    const marker =
+        document.getElementById(
+            "m-" + id
+        );
+
+
+    const card =
+        document.getElementById(
+            "card-" + id
+        );
+
+
+    if(marker){
+
+        marker.classList.add(
+            "activo"
+        );
+
+    }
+
+
+    if(card){
+
+        card.classList.add(
+            "seleccionada"
+        );
+
+    }
+
+
+    /*
+       Desplazamos la página
+       hacia el mapa.
+    */
+
+    mapa.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+
+    /*
+       Mostramos popup.
+    */
+
+    mostrarPopup(
+        animal,
+        progreso
+    );
+
+
+    /*
+       Después de unos segundos
+       quitamos el efecto.
+    */
+
+    setTimeout(
+
+        () => {
+
+            if(marker){
+
+                marker.classList.remove(
+                    "activo"
+                );
+
+            }
+
+        },
+
+        5000
+
+    );
+
+}
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+function mostrarPopup(
+    animal,
+    progreso
+){
+
+    const popup =
+        document.getElementById(
+            "popup"
+        );
+
+
+    let estado = "";
+
+
+    if(
+        progreso.porcentaje <= 0
+    ){
+
+        estado =
+            "⏳ Todavía está esperando";
+
+    }
+
+    else if(
+        progreso.porcentaje >= 100
+    ){
+
+        estado =
+            "✅ Ya completó este recorrido";
+
+    }
+
+    else{
+
+        estado =
+            " Está avanzando por la ruta";
+
+    }
+
+
+    popup.innerHTML = `
+
+        <button
+            class="cerrar"
+            onclick="cerrarPopup()"
+        >
+            ×
+        </button>
+
+
+        <div class="popup-title">
+
+            <span class="popup-emoji">
+                ${animal.emoji}
+            </span>
+
+            <span>
+                ${animal.nombre}
+            </span>
+
+        </div>
+
+
+        <div class="popup-text">
+            ${animal.nota}
+        </div>
+
+
+        <div class="popup-data">
+
+            <strong>
+                📍 Recorrido:
+            </strong>
+
+            ${animal.viaje}
+
+            <br><br>
+
+            <strong>
+                📊 Progreso:
+            </strong>
+
+            ${progreso.porcentaje.toFixed(2)}%
+
+            <br>
+
+            <strong>
+                🛣️ Distancia:
+            </strong>
+
+            ${progreso.kmPropio.toFixed(2)} km
+
+            <br><br>
+
+            ${estado}
+
+        </div>
+
+    `;
+
+
+    popup.classList.add(
+        "show"
+    );
+
+
+    /*
+       Cerramos automáticamente
+       después de 8 segundos.
+    */
+
+    setTimeout(
+
+        () => {
+
+            popup.classList.remove(
+                "show"
+            );
+
+        },
+
+        8000
+
+    );
+
+}
+
+
+/* =====================================================
+   CERRAR POPUP
+===================================================== */
+
+function cerrarPopup(){
+
+    document
+        .getElementById("popup")
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+/* =====================================================
+   MOSTRAR / OCULTAR LISTA
+===================================================== */
+
+function toggleTracking(){
+
+    const tracking =
+        document.getElementById(
+            "track"
+        );
+
+
+    tracking.classList.toggle(
+        "open"
+    );
+
+
+    /*
+       Si acabamos de abrir
+       la lista, bajamos hasta ella.
+    */
+
+    if(
+        tracking.classList.contains(
+            "open"
+        )
+    ){
+
+        setTimeout(
+
+            () => {
+
+                tracking.scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+
+            },
+
+            250
+
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ACTUALIZACIÓN GENERAL
+===================================================== */
+
+function actualizar(){
+
+    actualizarCronometro();
+
+    actualizarMapa();
+
+    actualizarLista();
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+window.addEventListener(
+    "resize",
+    actualizarMapa
+);
+
+
+/*
+   Esperamos a que cargue
+   completamente la imagen/mapa.
+*/
+
+window.addEventListener(
+    "load",
+    () => {
+
+        actualizar();
+
+    }
+);
+
+
+/*
+   Actualizamos cada segundo.
+*/
+
+setInterval(
+    actualizar,
+    1000
+);
+
+
+/*
+   Primera ejecución.
+*/
+
+actualizar();
+
+</script>
+
+</body>
+</html>
